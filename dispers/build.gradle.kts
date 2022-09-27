@@ -30,7 +30,7 @@ kotlin {
 
         jvmMain {
             dependencies {
-                implementation("dev.bitflow.dispers:dispers-client-kt:1.1-SNAPSHOT")
+                implementation("dev.bitflow.dispers:core:1.1-SNAPSHOT")
             }
         }
     }
