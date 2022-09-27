@@ -11,16 +11,11 @@ val dokkaJar by tasks.registering(Jar::class) {
 
 publishing {
     repositories {
-        listOf(
-            "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/",
-            "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-        ).forEach {
-            maven {
-                setUrl(it)
-                credentials {
-                    username = System.getenv("SONATYPE_USER")
-                    password = System.getenv("SONATYPE_KEY")
-                }
+        maven {
+            setUrl("https://nexus.rythm.dev/repository/maven-snapshots/")
+            credentials {
+                username = System.getenv("NEXUS_USERNAME")
+                password = System.getenv("NEXUS_PASSWORD")
             }
         }
     }
@@ -54,21 +49,6 @@ publishing {
                     url.set("https://github.com/DRSchlaubi/Lavalink.kt")
                 }
             }
-        }
-    }
-}
-
-signing {
-    val signingKey = findProperty("signingKey")?.toString()
-    val signingPassword = findProperty("signingPassword")?.toString()
-    if (signingKey != null && signingPassword != null) {
-        useInMemoryPgpKeys(
-            String(java.util.Base64.getDecoder().decode(signingKey.toByteArray())),
-            signingPassword
-        )
-
-        publishing.publications.withType<MavenPublication> {
-            sign(this)
         }
     }
 }
