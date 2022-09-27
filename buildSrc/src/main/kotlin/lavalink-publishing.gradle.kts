@@ -12,7 +12,11 @@ val dokkaJar by tasks.registering(Jar::class) {
 publishing {
     repositories {
         maven {
-            setUrl("https://nexus.rythm.dev/repository/maven-snapshots/")
+            url = if (project.version.toString().contains("SNAPSHOT")) {
+                uri("https://nexus.rythm.dev/repository/maven-snapshots/")
+            } else {
+                uri("https://nexus.rythm.dev/repository/maven-releases/")
+            }
             credentials {
                 username = System.getenv("NEXUS_USERNAME")
                 password = System.getenv("NEXUS_PASSWORD")
