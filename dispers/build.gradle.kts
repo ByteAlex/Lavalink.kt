@@ -30,7 +30,6 @@ kotlin {
 
         jvmMain {
             dependencies {
-                implementation("dev.schlaubi.lavakord:core-jvm:3.7.0-dispers")
                 implementation("dev.bitflow.dispers:dispers-client-kt:1.1-SNAPSHOT")
             }
         }
