@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+      NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
     # Steps represent a sequence of tasks that will be executed as part of the job
