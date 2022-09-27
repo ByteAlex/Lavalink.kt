@@ -6,10 +6,8 @@ name: CI
 # events but only for the master branch
 on:
   push:
-  pull_request:
-    types:
-      - opened
-      - synchronize
+    branches:
+      - dispers
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -20,10 +18,6 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false"
-      TARGET_BRANCH: ${{ github.event.pull_request.base.ref }}
-      KORD_TEST_TOKEN: ${{ secrets.KORD_TEST_TOKEN }}
-      BINTRAY_KEY: ${{ secrets.BINTRAY_KEY }}
-      BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -59,18 +53,16 @@ jobs:
             ~/.gradle
           # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
 
-      - name: Gradle (Testing)
-        run: gradle --stacktrace --info jvmTest
+#      - name: Gradle (Testing)
+#        run: gradle --stacktrace --info jvmTest
   release:
     name: Publish artifacts
     runs-on: ubuntu-20.04
     needs: build
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/dispers'
     env:
-      SONATYPE_KEY: ${{ secrets.SONATYPE_KEY }}
-      SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
-      ORG_GRADLE_PROJECT_signingKey: ${{ secrets.signingKey }}
-      ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.signingPassword }}
+      NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
     steps:
